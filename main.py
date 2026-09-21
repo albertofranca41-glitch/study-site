@@ -1,3 +1,5 @@
+import uuid
+
 # ===========================================
 #   Creating the classes
 # ===========================================
@@ -32,27 +34,13 @@ class Note:
 #   Objects for testing
 # ===========================================
 
-subjects = [
-    Subject(1, "Filosofia", "2026-09-17", "2026-09-17"),
-    Subject(2, "Programacao", "2026-09-17", "2026-09-17"),
-    Subject(3, "Teologia", "2026-09-17", "2026-09-17")
-]
+subjects = []
 
 
-topics = [
-    Topic(1, "Aristoteles", 1, "2026-09-17", "2026-09-17"),
-    Topic(2, "Python", 2, "2026-09-17", "2026-09-17"),
-    Topic(3, "Django", 2, "2026-09-17", "2026-09-17"),
-    Topic(4, "Teologia do Pacto", 3, "2026-09-17", "2026-09-17")
-]
+topics = []
 
 
-notes = [
-    Note(1, "Metafisica", "Metafisica eh uma...", 1, "2026-09-17", "2026-09-17"),
-    Note(2, "Classes", "Classes sao...", 2, "2026-09-17", "2026-09-17"),
-    Note(3, "Models", "Models sao...", 3, "2026-09-17", "2026-09-17"),
-    Note(4, "Alianca", "A teologia do pacto...", 4, "2026-09-17", "2026-09-17")
-]
+notes = []
 
 # ===========================================
 #   READ
@@ -78,7 +66,7 @@ def find_note(notes, note_id):
 # ===========================================
 
 def create_subject(subjects, name):
-    new_id = max((subject.id for subject in subjects), default=0) + 1
+    new_id = uuid.uuid4()
 
     subject = Subject(
         new_id,
@@ -89,6 +77,8 @@ def create_subject(subjects, name):
 
     subjects.append(subject)
 
+    return subject
+
 
 def create_topic(subjects, topics, subject_id, name):
     subject = find_subject(subjects, subject_id)
@@ -96,7 +86,7 @@ def create_topic(subjects, topics, subject_id, name):
     if subject is None:
         raise ValueError(f"Subject {subject_id} não encontrado")
 
-    new_id = max((topic.id for topic in topics), default=0) + 1
+    new_id = uuid.uuid4()
 
     topic = Topic(
         new_id,
@@ -108,6 +98,8 @@ def create_topic(subjects, topics, subject_id, name):
 
     topics.append(topic)
 
+    return topic
+
 
 def create_note(topics, notes, topic_id, title, content):
     topic = find_topic(topics, topic_id)
@@ -115,7 +107,7 @@ def create_note(topics, notes, topic_id, title, content):
     if topic is None:
         raise ValueError(f"Topic {topic_id} não encontrado")
 
-    new_id = max((note.id for note in notes), default=0) + 1
+    new_id = uuid.uuid4()
 
     note = Note(
         new_id,
@@ -127,6 +119,8 @@ def create_note(topics, notes, topic_id, title, content):
     )
 
     notes.append(note)
+
+    return note
 
 
 # ===========================================
@@ -205,3 +199,45 @@ def delete_note(notes, note_id):
         raise ValueError(f"Note {note_id} não encontrado")
 
     notes.remove(note)
+
+
+filosofia = create_subject(subjects, "Filosofia")
+programacao = create_subject(subjects, "Programacao")
+teologia = create_subject(subjects, "Teologia")
+
+aristoteles = create_topic(
+    subjects,
+    topics,
+    filosofia.id,
+    "Aristoteles"
+)
+
+python = create_topic(
+    subjects,
+    topics,
+    programacao.id,
+    "Python"
+)
+
+web = create_topic(
+    subjects,
+    topics,
+    programacao.id,
+    "Web"
+)
+
+forLoop = create_note(
+    topics,
+    notes,
+    python.id,
+    "For loop",
+    "..."
+)
+
+metafisica = create_note(
+    topics,
+    notes,
+    aristoteles.id,
+    "Metafisica",
+    "..."
+)
