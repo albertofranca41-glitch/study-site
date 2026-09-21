@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime, timezone
 
 # ===========================================
 #   Creating the classes
@@ -66,13 +67,13 @@ def find_note(notes, note_id):
 # ===========================================
 
 def create_subject(subjects, name):
-    new_id = uuid.uuid4()
+    now = datetime.now(timezone.utc)
 
     subject = Subject(
-        new_id,
+        uuid.uuid4(),
         name,
-        "2026-09-17",
-        "2026-09-17"
+        now,
+        now
     )
 
     subjects.append(subject)
@@ -86,14 +87,14 @@ def create_topic(subjects, topics, subject_id, name):
     if subject is None:
         raise ValueError(f"Subject {subject_id} não encontrado")
 
-    new_id = uuid.uuid4()
+    now = datetime.now(timezone.utc)
 
     topic = Topic(
-        new_id,
+        uuid.uuid4(),
         name,
         subject_id,
-        "2026-09-17",
-        "2026-09-17"
+        now,
+        now
     )
 
     topics.append(topic)
@@ -107,15 +108,15 @@ def create_note(topics, notes, topic_id, title, content):
     if topic is None:
         raise ValueError(f"Topic {topic_id} não encontrado")
 
-    new_id = uuid.uuid4()
+    now = datetime.now(timezone.utc)
 
     note = Note(
-        new_id,
+        uuid.uuid4(),
         title,
         content,
         topic_id,
-        "2026-09-17",
-        "2026-09-17"
+        now,
+        now
     )
 
     notes.append(note)
@@ -132,9 +133,11 @@ def update_subject(subjects, subject_id, name):
 
     if subject is None:
         raise ValueError(f"Subject {subject_id} não encontrado")
-
-    subject.name = name
-
+       
+    if subject.name != name:
+        now = datetime.now(timezone.utc)
+        subject.name = name
+        subject.updated_at = now
 
 def update_topic(topics, topic_id, name):
     topic = find_topic(topics, topic_id)
@@ -142,7 +145,10 @@ def update_topic(topics, topic_id, name):
     if topic is None:
         raise ValueError(f"Topic {topic_id} não encontrado")
 
-    topic.name = name
+    if topic.name != name:
+        now = datetime.now(timezone.utc)
+        topic.name = name
+        topic.updated_at = now
 
 def update_note(notes, note_id, title, content):
     note = find_note(notes, note_id)
@@ -150,8 +156,11 @@ def update_note(notes, note_id, title, content):
     if note is None:
         raise ValueError(f"Note {note_id} não encontrado")
 
-    note.title = title
-    note.content = content
+    if note.title != title or note.content != content:
+        now = datetime.now(timezone.utc)
+        note.title = title
+        note.content = content
+        note.updated_at = now
 
 # ===========================================
 #   DELETE
@@ -199,45 +208,3 @@ def delete_note(notes, note_id):
         raise ValueError(f"Note {note_id} não encontrado")
 
     notes.remove(note)
-
-
-filosofia = create_subject(subjects, "Filosofia")
-programacao = create_subject(subjects, "Programacao")
-teologia = create_subject(subjects, "Teologia")
-
-aristoteles = create_topic(
-    subjects,
-    topics,
-    filosofia.id,
-    "Aristoteles"
-)
-
-python = create_topic(
-    subjects,
-    topics,
-    programacao.id,
-    "Python"
-)
-
-web = create_topic(
-    subjects,
-    topics,
-    programacao.id,
-    "Web"
-)
-
-forLoop = create_note(
-    topics,
-    notes,
-    python.id,
-    "For loop",
-    "..."
-)
-
-metafisica = create_note(
-    topics,
-    notes,
-    aristoteles.id,
-    "Metafisica",
-    "..."
-)
