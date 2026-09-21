@@ -44,6 +44,7 @@ def subject_crud():
     print(found_subject.name)
 
     update_subject(subjects, subject.id, "Updated Subject")
+    print(subject.name)
     return subject.id
 
 def topic_crud(subject_id):
@@ -54,6 +55,7 @@ def topic_crud(subject_id):
     print(found_topic.name)
 
     update_topic(topics, topic.id, "Updated Topic")
+    print(topic.name)
     return topic.id
 
 def note_crud(topic_id):
@@ -65,6 +67,7 @@ def note_crud(topic_id):
     print(found_note.title)
 
     update_note(notes, note.id, "Updated Title", "Updated Content")
+    print(note.title)
     return note.id
 
 # ===============================================
