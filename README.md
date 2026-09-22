@@ -149,25 +149,23 @@ As entidades não precisam conhecer SQL ou detalhes específicos do banco de dad
 
 ---
 
-## 🧩 Estrutura de pastas
+## 🧩 Estrutura atual do projeto
 
-A estrutura abaixo representa a organização planejada para a camada de persistência:
+Atualmente, o projeto está organizado em módulos Python separados por responsabilidade:
 
 ```text
 study_site/
-├── models/
-│   ├── subject.py
-│   ├── topic.py
-│   └── note.py
-├── repositories/
-│   ├── subject_repository.py
-│   ├── topic_repository.py
-│   └── note_repository.py
-└── db/
-    └── connection.py
+├── models.py
+├── repositories.py
+├── services.py
+├── main.py
+├── .gitignore
+└── README.md
 ```
 
-Essa estrutura poderá mudar conforme novas necessidades surgirem durante o desenvolvimento.
+A estrutura poderá ser reorganizada conforme novas camadas e funcionalidades forem adicionadas ao projeto.
+
+
 
 ---
 
