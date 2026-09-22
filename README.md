@@ -12,8 +12,6 @@
 
 `study_site` é uma aplicação para organizar o conhecimento em três níveis: **Assuntos (Subjects)**, **Tópicos (Topics)** dentro desses assuntos, e **Notas (Notes)** dentro de cada tópico.
 
-A ideia nasceu de uma necessidade real: organizar anotações de estudo de forma estruturada, em vez de arquivos soltos.
-
 Este projeto está **ativamente em construção** e é, antes de tudo, um exercício de aprendizado. Ele não nasceu de um framework pronto — cada decisão de modelagem, cada escolha de tipo de dado e cada camada de arquitetura é pensada e discutida deliberadamente, com o objetivo de entender o *porquê*, não apenas o *como*.
 
 Se você acompanhar o histórico de commits, verá que o projeto evoluiu em etapas:
