@@ -1,6 +1,7 @@
 import os
 import mysql.connector
 from dotenv import load_dotenv
+from models import Subject
 
 # Carrega as variáveis definidas no arquivo .env
 load_dotenv()
@@ -33,3 +34,33 @@ def save_subject(subject):
 
     cursor.close()
     connection.close()
+
+def find_subject(subject_id):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        " SELECT * FROM Subjects WHERE id = %s;",
+        (str(subject_id),)
+    )
+
+    result = cursor.fetchone()
+
+    if result is None:
+        cursor.close()
+        connection.close()
+        return None
+
+    subject_id, name, created_at, updated_at = result
+
+    subject = Subject(
+        subject_id,
+        name, 
+        created_at,
+        updated_at
+    )
+
+    cursor.close()
+    connection.close()
+
+    return subject

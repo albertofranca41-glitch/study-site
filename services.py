@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime, timezone
 
 from models import Subject, Topic, Note
+from repositories import save_subject
 
 # ===========================================
 #   READ
@@ -37,6 +38,7 @@ def create_subject(subjects, name):
     )
 
     subjects.append(subject)
+    save_subject(subject)
 
     return subject
 
