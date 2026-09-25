@@ -16,6 +16,9 @@ def get_connection():
         database=os.getenv("DB_NAME")
     )
 
+# ===========================================
+#   SUBJECT OPERATIONS
+# ===========================================
 
 def save_subject(subject):
     connection = get_connection()
@@ -90,3 +93,51 @@ def update_subject(subject):
             cursor.close()
     finally:
         connection.close()
+
+def delete_subject(subject_id):
+    connection = get_connection()
+    try:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+               "DELETE FROM Subjects WHERE id = %s",
+               (str(subject_id),)
+            )
+
+            connection.commit()
+        finally:
+            cursor.close()
+    finally:
+        connection.close()
+
+# ===========================================
+#   TOPIC OPERATIONS
+# ===========================================
+
+def save_topic():
+    ...
+
+def find_topic():
+    ...
+
+def update_topic():
+    ...
+
+def delete_topic():
+    ...
+
+# ===========================================
+#   NOTE OPERATIONS
+# ===========================================~
+
+def save_note():
+    ...
+
+def find_note():
+    ...
+
+def update_note():
+    ...
+
+def delete_topic():
+    ...

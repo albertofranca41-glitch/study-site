@@ -5,6 +5,7 @@ from models import Subject, Topic, Note
 from repositories import save_subject
 from repositories import find_subject as repository_find_subject
 from repositories import update_subject as repository_update_subject
+from repositories import delete_subject as repository_delete_subject
 
 # ===========================================
 #   READ
@@ -102,6 +103,7 @@ def update_subject(subject_id, name):
         subject.updated_at = now
 
         repository_update_subject(subject)
+    return subject
 
 def update_topic(topics, topic_id, name):
     topic = find_topic(topics, topic_id)
@@ -130,22 +132,14 @@ def update_note(notes, note_id, title, content):
 #   DELETE
 # ===========================================
 
-def delete_subject(subjects, topics, notes, subject_id):
-    subject = find_subject(subjects, subject_id)
+def delete_subject(subject_id):
+    subject = find_subject(subject_id)
 
     if subject is None:
         raise ValueError(f"Subject {subject_id} não encontrado")
 
-    related_topics = []
+    repository_delete_subject(subject_id)
 
-    for topic in topics:
-        if topic.subject_id == subject_id:
-            related_topics.append(topic)
-
-    for topic in related_topics:
-        delete_topic(topics, notes, topic.id)
-
-    subjects.remove(subject)
 
 
 def delete_topic(topics, notes, topic_id):
