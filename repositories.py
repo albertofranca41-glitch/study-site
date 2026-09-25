@@ -139,5 +139,5 @@ def find_note():
 def update_note():
     ...
 
-def delete_topic():
+def delete_note():
     ...
