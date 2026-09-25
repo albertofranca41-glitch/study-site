@@ -16,51 +16,77 @@ def get_connection():
         database=os.getenv("DB_NAME")
     )
 
+
 def save_subject(subject):
     connection = get_connection()
-    cursor = connection.cursor()
-    cursor.execute(
-        "INSERT INTO Subjects (id, name, created_at, updated_at) "
-        "VALUES (%s, %s, %s, %s)",
-        (
-            str(subject.id),
-            subject.name,
-            subject.created_at,
-            subject.updated_at            
-        )
-    )
+    try:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                "INSERT INTO Subjects (id, name, created_at, updated_at) "
+                "VALUES (%s, %s, %s, %s)",
+                (
+                    str(subject.id),
+                    subject.name,
+                    subject.created_at,
+                    subject.updated_at            
+                )
+            )
 
-    connection.commit()
+            connection.commit()
+        finally:
+            cursor.close()
+    finally:
+        connection.close()
 
-    cursor.close()
-    connection.close()
 
 def find_subject(subject_id):
     connection = get_connection()
-    cursor = connection.cursor()
+    try:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                " SELECT id, name, created_at, updated_at FROM Subjects WHERE id = %s;",
+                (str(subject_id),)
+            )
 
-    cursor.execute(
-        " SELECT * FROM Subjects WHERE id = %s;",
-        (str(subject_id),)
-    )
+            result = cursor.fetchone()
 
-    result = cursor.fetchone()
+            if result is None:
+                return None
 
-    if result is None:
-        cursor.close()
+            subject_id, name, created_at, updated_at = result
+
+            subject = Subject(
+                subject_id,
+                name, 
+                created_at,
+                updated_at
+            )
+        finally:
+            cursor.close()
+    finally:
         connection.close()
-        return None
-
-    subject_id, name, created_at, updated_at = result
-
-    subject = Subject(
-        subject_id,
-        name, 
-        created_at,
-        updated_at
-    )
-
-    cursor.close()
-    connection.close()
 
     return subject
+
+
+def update_subject(subject):
+    connection = get_connection()
+    try:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                "UPDATE Subjects SET name = %s, updated_at = %s WHERE id = %s",
+                (
+                    subject.name,
+                    subject.updated_at,
+                    str(subject.id)
+                )
+            )
+
+            connection.commit()
+        finally:
+            cursor.close()
+    finally:
+        connection.close()

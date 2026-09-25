@@ -3,15 +3,15 @@ from datetime import datetime, timezone
 
 from models import Subject, Topic, Note
 from repositories import save_subject
+from repositories import find_subject as repository_find_subject
+from repositories import update_subject as repository_update_subject
 
 # ===========================================
 #   READ
 # ===========================================
 
-def find_subject(subjects, subject_id):
-    for subject in subjects:
-        if subject.id == subject_id:
-            return subject
+def find_subject(subject_id):
+    return repository_find_subject(subject_id)
 
 def find_topic(topics, topic_id):
     for topic in topics:
@@ -44,7 +44,7 @@ def create_subject(subjects, name):
 
 
 def create_topic(subjects, topics, subject_id, name):
-    subject = find_subject(subjects, subject_id)
+    subject = find_subject(subject_id)
 
     if subject is None:
         raise ValueError(f"Subject {subject_id} não encontrado")
@@ -90,8 +90,8 @@ def create_note(topics, notes, topic_id, title, content):
 #   UPDATE
 # ===========================================
 
-def update_subject(subjects, subject_id, name):
-    subject = find_subject(subjects, subject_id)
+def update_subject(subject_id, name):
+    subject = find_subject(subject_id)
 
     if subject is None:
         raise ValueError(f"Subject {subject_id} não encontrado")
@@ -100,6 +100,8 @@ def update_subject(subjects, subject_id, name):
         now = datetime.now(timezone.utc)
         subject.name = name
         subject.updated_at = now
+
+        repository_update_subject(subject)
 
 def update_topic(topics, topic_id, name):
     topic = find_topic(topics, topic_id)
