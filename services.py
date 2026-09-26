@@ -6,6 +6,7 @@ from repositories import save_subject
 from repositories import find_subject as repository_find_subject
 from repositories import update_subject as repository_update_subject
 from repositories import delete_subject as repository_delete_subject
+from repositories import save_topic
 
 # ===========================================
 #   READ
@@ -28,7 +29,7 @@ def find_note(notes, note_id):
 #   CREATE
 # ===========================================
 
-def create_subject(subjects, name):
+def create_subject(name):
     now = datetime.now(timezone.utc)
 
     subject = Subject(
@@ -38,13 +39,12 @@ def create_subject(subjects, name):
         now
     )
 
-    subjects.append(subject)
     save_subject(subject)
 
     return subject
 
 
-def create_topic(subjects, topics, subject_id, name):
+def create_topic(subject_id, name):
     subject = find_subject(subject_id)
 
     if subject is None:
@@ -60,7 +60,7 @@ def create_topic(subjects, topics, subject_id, name):
         now
     )
 
-    topics.append(topic)
+    save_topic(topic)
 
     return topic
 

@@ -114,8 +114,27 @@ def delete_subject(subject_id):
 #   TOPIC OPERATIONS
 # ===========================================
 
-def save_topic():
-    ...
+def save_topic(topic):
+    connection = get_connection()
+    try:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                "INSERT INTO Topics (id, name, subject_id, created_at, updated_at)"
+                "VALUES (%s, %s, %s, %s, %s)",
+                (
+                    str(topic.id),
+                    topic.name,
+                    topic.subject_id,
+                    topic.created_at,
+                    topic.updated_at
+                )
+            )
+            connection.commit()
+        finally:
+            cursor.close()
+    finally:
+        connection.close()
 
 def find_topic():
     ...
