@@ -8,6 +8,7 @@ from repositories import update_subject as repository_update_subject
 from repositories import delete_subject as repository_delete_subject
 from repositories import save_topic
 from repositories import find_topic as repository_find_topic
+from repositories import update_topic as repository_update_topic
 
 
 # ===========================================
@@ -115,6 +116,9 @@ def update_topic(topic_id, name):
         now = datetime.now(timezone.utc)
         topic.name = name
         topic.updated_at = now
+
+        repository_update_topic(topic)
+    return topic
 
 def update_note(notes, note_id, title, content):
     note = find_note(notes, note_id)

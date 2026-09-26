@@ -172,13 +172,18 @@ def find_topic(topic_id):
     return topic
 
 
-def update_topic():
+def update_topic(topic):
     connection = get_connection()
     try:
         cursor = connection.cursor()
         try:
             cursor.execute(
-
+                "UPDATE Topics SET name = %s, updated_at = %s WHERE id = %s",
+                (
+                    topic.name,
+                    topic.updated_at,
+                    str(topic.id)
+                )
 
             )
 
