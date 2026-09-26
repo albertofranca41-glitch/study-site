@@ -193,14 +193,14 @@ def update_topic(topic):
     finally:
         connection.close()
 
-def delete_topic():
+def delete_topic(topic_id):
     connection = get_connection()
     try:
         cursor = connection.cursor()
         try:
             cursor.execute(
-
-
+               "DELETE FROM Topics WHERE id = %s",
+               (str(topic_id),)
             )
 
             connection.commit()

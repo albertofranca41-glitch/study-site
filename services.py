@@ -9,6 +9,7 @@ from repositories import delete_subject as repository_delete_subject
 from repositories import save_topic
 from repositories import find_topic as repository_find_topic
 from repositories import update_topic as repository_update_topic
+from repositories import delete_topic as repository_delete_topic
 
 
 # ===========================================
@@ -143,25 +144,17 @@ def delete_subject(subject_id):
         raise ValueError(f"Subject {subject_id} não encontrado")
 
     repository_delete_subject(subject_id)
+    return subject
 
 
 
-def delete_topic(topics, notes, topic_id):
-    topic = find_topic(topics, topic_id)
+def delete_topic(topic_id):
+    topic = find_topic(topic_id)
 
     if topic is None:
         raise ValueError(f"Topic {topic_id} não encontrado")
 
-    related_notes = []
-
-    for note in notes:
-        if note.topic_id == topic_id:
-            related_notes.append(note)
-
-    for note in related_notes:
-        notes.remove(note)
-
-    topics.remove(topic)
+    repository_delete_topic(topic_id)
 
 def delete_note(notes, note_id):
     note = find_note(notes, note_id)
