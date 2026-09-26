@@ -7,6 +7,8 @@ from repositories import find_subject as repository_find_subject
 from repositories import update_subject as repository_update_subject
 from repositories import delete_subject as repository_delete_subject
 from repositories import save_topic
+from repositories import find_topic as repository_find_topic
+
 
 # ===========================================
 #   READ
@@ -15,10 +17,8 @@ from repositories import save_topic
 def find_subject(subject_id):
     return repository_find_subject(subject_id)
 
-def find_topic(topics, topic_id):
-    for topic in topics:
-        if topic.id == topic_id:
-            return topic
+def find_topic(topic_id):
+    return repository_find_topic(topic_id)
 
 def find_note(notes, note_id):
     for note in notes:
@@ -65,8 +65,8 @@ def create_topic(subject_id, name):
     return topic
 
 
-def create_note(topics, notes, topic_id, title, content):
-    topic = find_topic(topics, topic_id)
+def create_note(notes, topic_id, title, content):
+    topic = find_topic(topic_id)
 
     if topic is None:
         raise ValueError(f"Topic {topic_id} não encontrado")
@@ -105,8 +105,8 @@ def update_subject(subject_id, name):
         repository_update_subject(subject)
     return subject
 
-def update_topic(topics, topic_id, name):
-    topic = find_topic(topics, topic_id)
+def update_topic(topic_id, name):
+    topic = find_topic(topic_id)
 
     if topic is None:
         raise ValueError(f"Topic {topic_id} não encontrado")

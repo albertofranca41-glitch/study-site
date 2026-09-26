@@ -2,6 +2,7 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 from models import Subject
+from models import Topic
 
 # Carrega as variáveis definidas no arquivo .env
 load_dotenv()
@@ -66,6 +67,7 @@ def find_subject(subject_id):
                 created_at,
                 updated_at
             )
+
         finally:
             cursor.close()
     finally:
@@ -130,20 +132,77 @@ def save_topic(topic):
                     topic.updated_at
                 )
             )
+
             connection.commit()
         finally:
             cursor.close()
     finally:
         connection.close()
 
-def find_topic():
-    ...
+def find_topic(topic_id):
+    connection = get_connection()
+    try:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                " SELECT id, name, subject_id, created_at, updated_at FROM Topics WHERE id = %s;",
+                (str(topic_id),)
+            )
+
+            result = cursor.fetchone()
+
+            if result is None:
+                return None
+
+            topic_id, name, subject_id, created_at, updated_at = result
+
+            topic = Topic(
+                topic_id,
+                name,
+                subject_id,
+                created_at,
+                updated_at
+            )
+
+        finally:
+            cursor.close()
+    finally:
+        connection.close()
+
+    return topic
+
 
 def update_topic():
-    ...
+    connection = get_connection()
+    try:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+
+
+            )
+
+            connection.commit()
+        finally:
+            cursor.close()
+    finally:
+        connection.close()
 
 def delete_topic():
-    ...
+    connection = get_connection()
+    try:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+
+
+            )
+
+            connection.commit()
+        finally:
+            cursor.close()
+    finally:
+        connection.close()
 
 # ===========================================
 #   NOTE OPERATIONS
