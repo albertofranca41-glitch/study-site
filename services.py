@@ -7,10 +7,15 @@ from repositories import find_subject as repository_find_subject
 from repositories import update_subject as repository_update_subject
 from repositories import delete_subject as repository_delete_subject
 from repositories import save_topic
+from repositories import find_topics_by_subject
 from repositories import find_topic as repository_find_topic
 from repositories import update_topic as repository_update_topic
 from repositories import delete_topic as repository_delete_topic
-
+from repositories import save_note
+from repositories import find_notes_by_topic
+from repositories import find_note as repository_find_note
+from repositories import update_note as repository_update_note
+from repositories import delete_note as repository_delete_note
 
 # ===========================================
 #   READ
@@ -22,10 +27,8 @@ def find_subject(subject_id):
 def find_topic(topic_id):
     return repository_find_topic(topic_id)
 
-def find_note(notes, note_id):
-    for note in notes:
-        if note.id == note_id:
-            return note
+def find_note(note_id):
+    return repository_find_note(note_id)
 
 # ===========================================
 #   CREATE
@@ -67,7 +70,7 @@ def create_topic(subject_id, name):
     return topic
 
 
-def create_note(notes, topic_id, title, content):
+def create_note(topic_id, title, content):
     topic = find_topic(topic_id)
 
     if topic is None:
@@ -84,7 +87,7 @@ def create_note(notes, topic_id, title, content):
         now
     )
 
-    notes.append(note)
+    save_note(note)
 
     return note
 
@@ -133,6 +136,9 @@ def update_note(notes, note_id, title, content):
         note.content = content
         note.updated_at = now
 
+        repository_update_note(note)
+        return note
+
 # ===========================================
 #   DELETE
 # ===========================================
@@ -154,12 +160,15 @@ def delete_topic(topic_id):
     if topic is None:
         raise ValueError(f"Topic {topic_id} não encontrado")
 
+
+    
+
     repository_delete_topic(topic_id)
 
-def delete_note(notes, note_id):
-    note = find_note(notes, note_id)
+def delete_note(note_id):
+    note = find_note(note_id)
 
     if note is None:
         raise ValueError(f"Note {note_id} não encontrado")
 
-    notes.remove(note)
+    repository_delete_note(note_id)

@@ -3,6 +3,7 @@ import mysql.connector
 from dotenv import load_dotenv
 from models import Subject
 from models import Topic
+from models import Note
 
 # Carrega as variáveis definidas no arquivo .env
 load_dotenv()
@@ -139,6 +140,43 @@ def save_topic(topic):
     finally:
         connection.close()
 
+
+def find_topics_by_subject(subject_id):
+    connection = get_connection()
+    try:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                "SELECT id, name, subject_id, created_at, updated_at FROM Topics WHERE subject_id = %s;",
+                (str(subject_id),)
+            )
+
+            results = cursor. fetchall()
+
+            if not results:
+                return []
+
+            topics = []
+
+            for result in results:
+                topic_id, name, subject_id, created_at, updated_at = result
+
+                topic = Topic(
+                    topic_id,
+                    name,
+                    subject_id,
+                    created_at,
+                    updated_at
+                )
+                topics.append(topic)
+
+        finally:
+            cursor.close()
+    finally:
+        connection.close()
+
+    return topics
+
 def find_topic(topic_id):
     connection = get_connection()
     try:
@@ -213,14 +251,136 @@ def delete_topic(topic_id):
 #   NOTE OPERATIONS
 # ===========================================~
 
-def save_note():
-    ...
+def save_note(note):
+    connection = get_connection()
+    try:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                "INSERT INTO Notes (id, title, content, topic_id, created_at, updated_at)"
+                "VALUES (%s, %s, %s, %s, %s, %s)",
+                (
+                    str(note.id),
+                    note.title,
+                    note.content,
+                    note.topic_id,
+                    note.created_at,
+                    note.updated_at
+                )
+            )
 
-def find_note():
-    ...
+            connection.commit()
+        finally:
+            cursor.close()
+    finally:
+        connection.close()
 
-def update_note():
-    ...
+def find_notes_by_topic(topic_id):
+    connection = get_connection()
+    try:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                "SELECT id, title, content, topic_id, created_at, updated_at FROM Notes WHERE topic_id = %s;",
+                (str(topic_id),)
+            )
 
-def delete_note():
-    ...
+            results = cursor. fetchall()
+
+            if not results:
+                return []
+
+            notes = []
+
+            for result in results:
+                note_id, title, content, topic_id, created_at, updated_at = result
+
+                note = Note(
+                    note_id,
+                    title,
+                    content,
+                    topic_id,
+                    created_at,
+                    updated_at
+                )
+                notes.append(note)
+
+        finally:
+            cursor.close()
+    finally:
+        connection.close()
+
+    return notes
+
+def find_note(note_id):
+    connection = get_connection()
+    try:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                " SELECT id, title, content, topic_id, created_at, updated_at FROM Notes WHERE id = %s;",
+                (str(note_id),)
+            )
+
+            result = cursor.fetchone()
+
+            if result is None:
+                return None
+
+            note_id, title, content, topic_id, created_at, updated_at = result
+
+            note = Note(
+                note_id, 
+                title,
+                content,
+                topic_id,
+                created_at,
+                updated_at
+            )
+
+        finally:
+            cursor.close()
+    finally:
+        connection.close()
+
+    return note
+
+
+
+
+def update_note(note):
+    connection = get_connection()
+    try:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                 "UPDATE Notes SET title = %s, content = %s, updated_at = %s WHERE id = %s",
+                (
+                    note.title,
+                    note.content,
+                    note.updated_at,
+                    str(note.id)
+                )
+            )
+
+            connection.commit()
+        finally:
+            cursor.close()
+    finally:
+        connection.close()
+
+def delete_note(note_id):
+    connection = get_connection()
+    try:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+               "DELETE FROM Notes WHERE id = %s",
+               (str(note_id),)
+            )
+
+            connection.commit()
+        finally:
+            cursor.close()
+    finally:
+        connection.close()
