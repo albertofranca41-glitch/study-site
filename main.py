@@ -13,16 +13,6 @@ from services import (
     delete_note,
 )
 
-# ==============================================
-
-subjects = []
-
-
-topics = []
-
-
-notes = []
-
 # ===============================================
 # CRUD OPERATIONS
 # ===============================================
@@ -36,52 +26,67 @@ def main():
     delete_topic_flow(topic_id)
     delete_subject_flow(subject_id)
 
+
 def subject_crud():
-    subject = create_subject(subjects, "Subject Name")
-    print(subject.name)
+    subject = create_subject("Subject Name")
+    print(f"Subject criado: {subject.name}")
 
-    found_subject = find_subject(subjects, subject.id)
-    print(found_subject.name)
+    found_subject = find_subject(subject.id)
+    print(f"Subject encontrado: {found_subject.name}")
 
-    update_subject(subjects, subject.id, "Updated Subject")
-    print(subject.name)
+    update_subject(subject.id, "Updated Subject")
+
+    updated_subject = find_subject(subject.id)
+    print(f"Subject atualizado: {updated_subject.name}")
+
     return subject.id
 
+
 def topic_crud(subject_id):
-    topic = create_topic(subjects, topics, subject_id, "Topic Name")
-    print(topic.name)
+    topic = create_topic(subject_id, "Topic Name")
+    print(f"Topic criado: {topic.name}")
 
-    found_topic = find_topic(topics, topic.id)
-    print(found_topic.name)
+    found_topic = find_topic(topic.id)
+    print(f"Topic encontrado: {found_topic.name}")
 
-    update_topic(topics, topic.id, "Updated Topic")
-    print(topic.name)
+    update_topic(topic.id, "Updated Topic")
+
+    updated_topic = find_topic(topic.id)
+    print(f"Topic atualizado: {updated_topic.name}")
+
     return topic.id
 
+
 def note_crud(topic_id):
+    note = create_note(topic_id, "Note Title", "Note Content")
+    print(f"Note criada: {note.title}")
 
-    note = create_note(topics, notes, topic_id, "Note Title", "Note Content")
-    print(note.title)
+    found_note = find_note(note.id)
+    print(f"Note encontrada: {found_note.title}")
 
-    found_note = find_note(notes, note.id)
-    print(found_note.title)
+    update_note(note.id, "Updated Title", "Updated Content")
 
-    update_note(notes, note.id, "Updated Title", "Updated Content")
-    print(note.title)
+    updated_note = find_note(note.id)
+    print(f"Note atualizada: {updated_note.title}")
+
     return note.id
+
 
 # ===============================================
 # DELETE FUNCTIONS
 # ===============================================
 
 def delete_subject_flow(subject_id):
-    delete_subject(subjects, topics, notes, subject_id)
+    delete_subject(subject_id)
+
 
 def delete_topic_flow(topic_id):
-    delete_topic(topics, notes, topic_id)
+    delete_topic(topic_id)
+
 
 def delete_note_flow(note_id):
-    delete_note(notes, note_id)
+    delete_note(note_id)
+
 
 # ------------------------------------------------
 
