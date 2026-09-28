@@ -124,8 +124,8 @@ def update_topic(topic_id, name):
         repository_update_topic(topic)
     return topic
 
-def update_note(notes, note_id, title, content):
-    note = find_note(notes, note_id)
+def update_note(note_id, title, content):
+    note = find_note(note_id)
 
     if note is None:
         raise ValueError(f"Note {note_id} não encontrado")
