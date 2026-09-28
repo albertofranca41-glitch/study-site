@@ -149,6 +149,11 @@ def delete_subject(subject_id):
     if subject is None:
         raise ValueError(f"Subject {subject_id} não encontrado")
 
+    topics = find_topics_by_subject(subject_id)
+
+    for topic in topics:
+        delete_topic(topic.id)
+
     repository_delete_subject(subject_id)
     return subject
 
@@ -159,11 +164,14 @@ def delete_topic(topic_id):
 
     if topic is None:
         raise ValueError(f"Topic {topic_id} não encontrado")
-
-
     
+    notes = find_notes_by_topic(topic_id)
 
-    repository_delete_topic(topic_id)
+    for note in notes:
+        delete_note(note.id)
+    
+    repository_delete_topic(topic_id)    
+    return topic 
 
 def delete_note(note_id):
     note = find_note(note_id)
@@ -172,3 +180,4 @@ def delete_note(note_id):
         raise ValueError(f"Note {note_id} não encontrado")
 
     repository_delete_note(note_id)
+    return note
