@@ -138,7 +138,7 @@ As entidades não precisam conhecer SQL ou detalhes específicos do banco de dad
 * [x] Modelagem das entidades `Subject`, `Topic` e `Note`
 * [x] Implementação de CRUD in-memory
 * [x] Modelagem relacional do banco (tabelas, PKs e FKs)
-* [ ] Camada de persistência (repositórios traduzindo Python → SQL)
+* [x] Camada de persistência (repositórios traduzindo Python → SQL)
 * [ ] Tratamento de erros e validações
 * [ ] Testes automatizados
 * [ ] Interface de uso (CLI ou web)
