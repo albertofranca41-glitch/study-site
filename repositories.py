@@ -128,7 +128,7 @@ def save_topic(topic):
                 (
                     str(topic.id),
                     topic.name,
-                    topic.subject_id,
+                    str(topic.subject_id),
                     topic.created_at,
                     topic.updated_at
                 )
@@ -263,7 +263,7 @@ def save_note(note):
                     str(note.id),
                     note.title,
                     note.content,
-                    note.topic_id,
+                    str(note.topic_id),
                     note.created_at,
                     note.updated_at
                 )
