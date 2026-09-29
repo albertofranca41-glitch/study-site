@@ -7,12 +7,12 @@ from repositories import find_subject as repository_find_subject
 from repositories import update_subject as repository_update_subject
 from repositories import delete_subject as repository_delete_subject
 from repositories import save_topic
-from repositories import find_topics_by_subject
+from repositories import find_topics_by_subject as repository_find_topics_by_subject
 from repositories import find_topic as repository_find_topic
 from repositories import update_topic as repository_update_topic
 from repositories import delete_topic as repository_delete_topic
 from repositories import save_note
-from repositories import find_notes_by_topic
+from repositories import find_notes_by_topic as repository_find_notes_by_topic
 from repositories import find_note as repository_find_note
 from repositories import update_note as repository_update_note
 from repositories import delete_note as repository_delete_note
@@ -137,7 +137,7 @@ def update_note(note_id, title, content):
         note.updated_at = now
 
         repository_update_note(note)
-        return note
+    return note
 
 # ===========================================
 #   DELETE
@@ -149,7 +149,7 @@ def delete_subject(subject_id):
     if subject is None:
         raise ValueError(f"Subject {subject_id} não encontrado")
 
-    topics = find_topics_by_subject(subject_id)
+    topics = repository_find_topics_by_subject(subject_id)
 
     for topic in topics:
         delete_topic(topic.id)
@@ -165,7 +165,7 @@ def delete_topic(topic_id):
     if topic is None:
         raise ValueError(f"Topic {topic_id} não encontrado")
     
-    notes = find_notes_by_topic(topic_id)
+    notes = repository_find_notes_by_topic(topic_id)
 
     for note in notes:
         delete_note(note.id)
