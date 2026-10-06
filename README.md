@@ -140,7 +140,7 @@ As entidades não precisam conhecer SQL ou detalhes específicos do banco de dad
 * [x] Modelagem relacional do banco (tabelas, PKs e FKs)
 * [x] Camada de persistência (repositórios traduzindo Python → SQL)
 * [x] Tratamento de erros e validações
-* [ ] Testes automatizados
+* [x] Testes automatizados
 * [ ] Interface de uso (CLI ou web)
 
 > Este roadmap é vivo — as próximas etapas podem mudar conforme o aprendizado avança.
