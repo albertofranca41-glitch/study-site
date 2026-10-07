@@ -23,14 +23,41 @@ from services import (
 
 # ---------------- CREATE ----------------
 
-def test_create_subject_...():
-    ...
+def test_create_subject():
+    with patch("services.save_subject") as save:
+        subject = create_subject("Filosofia")
+
+    assert subject.name == "Filosofia"
+    assert subject.id is not None
+    assert subject.created_at == subject.updated_at
+    assert subject.created_at.tzinfo == timezone.utc 
+    save.assert_called_once_with(subject)
 
 
 # ---------------- UPDATE ----------------
 
-def test_update_subject_...():
-    ...
+def test_update_subject_updates():
+    subject = Subject(
+        "subject-1",
+        "Filosofia",
+        None,
+        datetime(2024, 1, 1, tzinfo=timezone.utc),
+    )
+
+
+    with (
+        patch("services.find_subject", return_value=subject),
+        patch("services.repository_update_subject") as save,
+    ):
+
+        result = update_subject(subject.id, "Teologia")
+
+    assert result is subject
+    assert subject.name == "Teologia"
+    assert subject.updated_at > datetime(2024, 1, 1, tzinfo=timezone.utc)
+    save.assert_called_once_with(subject)
+
+
 
 
 # ---------------- DELETE ----------------
