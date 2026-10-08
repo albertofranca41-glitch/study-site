@@ -57,13 +57,44 @@ def test_update_subject_updates():
     assert subject.updated_at > datetime(2024, 1, 1, tzinfo=timezone.utc)
     save.assert_called_once_with(subject)
 
+def test_update_subject_no_change():
+    subject = Subject(
+        "subject-1",
+        "Filosofia",
+        None,
+        datetime(2024, 1, 1, tzinfo=timezone.utc),
+    )
+
+    with (
+        patch("services.find_subject", return_value=subject),
+        patch("services.repository_update_subject") as save,
+    ):
+        result = update_subject(subject.id, "Filosofia")
+
+        assert result is subject
+        assert subject.name == "Filosofia"
+        save.assert_not_called()
 
 
 
 # ---------------- DELETE ----------------
 
-def test_delete_subject_...():
-    ...
+def test_delete_subject():
+    subject = Subject(
+        "subject-1",
+        "Filosofia",
+        None,
+        datetime(2024, 1, 1, tzinfo=timezone.utc),
+    )
+
+    with (
+        patch("services.find_subject", return_value=subject),
+        patch("services.repository_delete_subject") as delete,
+    ):
+        result = delete_subject(subject.id)
+
+    assert result is subject
+    delete.assert_called_once_with(subject.id)
 
 
 # =================================================
@@ -72,20 +103,20 @@ def test_delete_subject_...():
 
 # ---------------- CREATE ----------------
 
-def test_create_topic_...():
-    ...
+def test_create_topic():
+    pass
 
 
 # ---------------- UPDATE ----------------
 
-def test_update_topic_...():
-    ...
+def test_update_topic():
+    pass
 
 
 # ---------------- DELETE ----------------
 
-def test_delete_topic_...():
-    ...
+def test_delete_topic():
+    pass
 
 
 # =================================================
@@ -94,20 +125,20 @@ def test_delete_topic_...():
 
 # ---------------- CREATE ----------------
 
-def test_create_note_...():
-    ...
+def test_create_note():
+    pass
 
 
 # ---------------- UPDATE ----------------
 
-def test_update_note_...():
-    ...
+def test_update_note():
+    pass
 
 
 # ---------------- DELETE ----------------
 
-def test_delete_note_...():
-    ...
+def test_delete_note():
+    pass
 
 
 # =================================================
@@ -116,11 +147,11 @@ def test_delete_note_...():
 
 # ---------------- SUBJECT ----------------
 
-def test_delete_subject_remove_topicos_dependentes_...():
-    ...
+def test_delete_subject_remove_topicos_dependentes():
+    pass
 
 
 # ---------------- TOPIC ----------------
 
-def test_delete_topic_remove_notas_dependentes_...():
-    ...
+def test_delete_topic_remove_notas_dependentes():
+    pass
