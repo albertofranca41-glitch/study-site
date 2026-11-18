@@ -44,7 +44,6 @@ def test_update_subject_updates():
         datetime(2024, 1, 1, tzinfo=timezone.utc),
     )
 
-
     with (
         patch("services.find_subject", return_value=subject),
         patch("services.repository_update_subject") as save,
@@ -104,14 +103,44 @@ def test_delete_subject():
 # ---------------- CREATE ----------------
 
 def test_create_topic():
-    pass
+    subject_id = "subject-1"
+    subject = Subject(subject_id, "Filosofia", None, None)
+
+    with (
+        patch("services.find_subject", return_value=subject) as find,
+        patch("services.save_topic") as save,
+    ):
+        topic = create_topic(subject_id, "Metafisica")
+
+    assert topic.name == "Metafisica"
+    assert topic.subject_id == subject_id
+    assert topic.created_at == topic.updated_at
+    assert topic.id is not None
+    find.assert_called_once_with(subject_id)
+    save.assert_called_once_with(topic)
 
 
 # ---------------- UPDATE ----------------
 
-def test_update_topic():
-    pass
+def test_update_topic_updates():    
+    topic = Topic(
+        "subject-1"
+        "Metafisica"
+        "subject-1",
+        None,
+        None
+    )
 
+    with (
+        patch("services.find_topic", return_value=topic),
+        patch("services.repositor_update_topic") as save,
+    ):
+        result = su
+
+    
+
+def test_update_topic_no_change():
+    pass
 
 # ---------------- DELETE ----------------
 
