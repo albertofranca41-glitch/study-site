@@ -14,6 +14,8 @@
 
 Este projeto está **ativamente em construção** e é, antes de tudo, um exercício de aprendizado. Ele não nasceu de um framework pronto — cada decisão de modelagem, cada escolha de tipo de dado e cada camada de arquitetura é pensada e discutida deliberadamente, com o objetivo de entender o *porquê*, não apenas o *como*.
 
+Também uso este projeto para entender como o **Django** funciona por baixo das suas abstrações. Para isso, implemento cada camada da aplicação do zero, desde a modelagem das entidades até a persistência dos dados. Escrever esse código à mão me ajuda a entender quais responsabilidades o Django assume e como suas abstrações simplificam o desenvolvimento.
+
 Se você acompanhar o histórico de commits, verá que o projeto evoluiu em etapas:
 
 1. Modelagem das entidades em Python puro (classes simples, sem framework).
